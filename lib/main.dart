@@ -1,4 +1,4 @@
-import 'package:findit/intro.dart';
+import 'package:findit/screens/intro.dart';
 import 'package:findit/routes.dart';
 import 'package:findit/services/database.dart';
 import 'package:flutter/material.dart';

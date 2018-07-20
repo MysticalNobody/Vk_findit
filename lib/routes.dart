@@ -1,7 +1,9 @@
 import 'dart:async';
 
-import 'package:findit/game.dart';
-import 'package:findit/intro.dart';
+import 'package:findit/screens/game.dart';
+import 'package:findit/screens/intro.dart';
+import 'package:findit/screens/registration.dart';
+import 'package:findit/screens/registration/code.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 
@@ -14,6 +16,12 @@ class Routes {
     }));
     _router.define("/game", handler: new Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       return new GameScreen();
+    }));
+    _router.define("/register", handler: new Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+      return new RegistrationScreen();
+    }));
+    _router.define("/code", handler: new Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+      return new CodeScreen();
     }));
   }
 

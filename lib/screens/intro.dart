@@ -68,7 +68,7 @@ final pages = [
         builder: (context) => new IntroViewsFlutter(
           pages,
           onTapDoneButton: () {
-            Routes.navigateTo(context, 'game', transition: TransitionType.fadeIn, replace: true);
+            Routes.navigateTo(context, '/register', transition: TransitionType.fadeIn, replace: true);
           },
           showSkipButton:
           true,

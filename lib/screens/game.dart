@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:fluttie/fluttie.dart';
 
 class GameScreen extends StatefulWidget {
@@ -42,7 +41,7 @@ class _GameScreenState extends State<GameScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: new Stack(
+        body: Stack(
             fit: StackFit.expand,
             children: <Widget>[
               new Positioned.fill(child: new FluttieAnimation(gradient)),

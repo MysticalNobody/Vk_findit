@@ -1,8 +1,10 @@
 import 'package:findit/services/http_query.dart';
 import 'package:findit/widgets/masked_text.dart';
 import 'package:flutter/material.dart';
-
 class PhoneScreen extends StatelessWidget {
+  PhoneScreen({this.onPressedButton});
+
+  final VoidCallback onPressedButton;
 
   var controller = new MaskedTextController(mask: '(000) 000-00-00');
   final labelStyle = TextStyle(
@@ -56,7 +58,12 @@ class PhoneScreen extends StatelessWidget {
       icon: Icon(Icons.check),
       color: Colors.white,
       disabledColor: Colors.grey,
-      onPressed: () => submitPhoneButton(context),
+      onPressed: () {
+        final error = phoneInputValidator();
+        if (error == null) {
+          onPressedButton();
+        }
+      },
     );
   }
 

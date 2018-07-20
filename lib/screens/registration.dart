@@ -1,6 +1,11 @@
+import 'package:findit/routes.dart';
+import 'package:findit/screens/game.dart';
 import 'package:findit/screens/registration/phone.dart';
+import 'package:findit/screens/registration/photo.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttie/fluttie.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:fluro/fluro.dart';
 
 class RegistrationScreen extends StatefulWidget {
   @override
@@ -9,7 +14,7 @@ class RegistrationScreen extends StatefulWidget {
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
   FluttieAnimationController gradient;
-
+  int screenNum = 0;
 
   @override
   initState() {
@@ -40,6 +45,30 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     });
   }
 
+  Widget setScreen() {
+    switch (screenNum) {
+      case 0:
+        return PhoneScreen(
+            onPressedButton: () {
+              setState(() {
+                screenNum = 1;
+              });
+            });
+        break;
+      default:
+        return PhotoScreen(
+            onPressedButton: () {
+              setState(() async {
+                var image = await ImagePicker.pickImage(source: ImageSource.camera);
+                user_img = image;
+                if(image!=null)
+                  Routes.navigateTo(context, 'game',transition: TransitionType.fadeIn, replace: true);
+          });
+        });
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,23 +76,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             fit: StackFit.expand,
             children: <Widget>[
               new Positioned.fill(child: new FluttieAnimation(gradient)),
-
               Container(
-                margin: EdgeInsets.only(top: 48.0),
-                  child: Text('Регистрация',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: 'Lobster',
-                        fontSize: 48.0,
-                        fontWeight: FontWeight.w800),
-                    textAlign: TextAlign.center,)),
-              Container(
-                  margin: EdgeInsets.only(top: 48.0),
                   child: Column(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        PhoneScreen()
+                        setScreen()
                       ])
               )
             ]

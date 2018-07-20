@@ -1,10 +1,14 @@
+import 'package:findit/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttie/fluttie.dart';
+import 'package:fluro/fluro.dart';
 
 class GameScreen extends StatefulWidget {
   @override
   _GameScreenState createState() => new _GameScreenState();
 }
+
+var user_img = null;
 
 class _GameScreenState extends State<GameScreen> {
   FluttieAnimationController gradient;
@@ -61,20 +65,36 @@ class _GameScreenState extends State<GameScreen> {
                                               fontFamily: 'Lobster',
                                               fontSize: 24.0,
                                               fontWeight: FontWeight.w800)),
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(
-                                              12.0),
-                                          color: Colors.white,
-                                        ),
-                                        width: MediaQuery
-                                            .of(context)
-                                            .size
-                                            .width / 3,
-                                        height: MediaQuery
-                                            .of(context)
-                                            .size
-                                            .width / 3,
+                                      InkWell(
+                                          onTap: () {
+                                            Routes.navigateTo(
+                                                context, 'image_view',
+                                                transition: TransitionType
+                                                    .fadeIn);
+                                          },
+                                          child: Container(
+                                            margin: EdgeInsets.only(
+                                                top: 12.0),
+                                            decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                  image: FileImage(
+                                                      user_img),
+                                                  fit: BoxFit.cover,
+                                                  alignment: Alignment
+                                                      .center),
+                                              borderRadius: BorderRadius
+                                                  .circular(
+                                                  12.0),
+                                            ),
+                                            width: MediaQuery
+                                                .of(context)
+                                                .size
+                                                .width / 3,
+                                            height: MediaQuery
+                                                .of(context)
+                                                .size
+                                                .width / 3,
+                                          )
                                       )
                                     ]
                                 )
@@ -110,6 +130,7 @@ class _GameScreenState extends State<GameScreen> {
                                 child: Column(
                                     children: <Widget>[
                                       Container(
+                                        margin: EdgeInsets.only(bottom: 12.0),
                                         decoration: BoxDecoration(
                                             borderRadius: BorderRadius.circular(
                                                 12.0),

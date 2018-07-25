@@ -12,12 +12,14 @@ version: 1.0.0+1
 dependencies:
   flutter:
     sdk: flutter
-  intro_views_flutter: "^2.2.2"
+  intro_views_flutter: ^2.2.2
   sqflite: ^0.8.4
   fluro: ^1.1.0
-  image_picker: "^0.4.5"
+  image_picker: ^0.4.5
   path_provider: ^0.3.0
   fluttie: ^0.2.3
+  image: ^1.1.31
+  geolocation: ^0.2.1
   photo_view: 0.0.3
   video_player: ^0.6.4
   dart_image: ^1.0.2

@@ -1,6 +1,6 @@
 import 'dart:collection';
 
-import 'package:findit/classes/user.dart';
+import 'package:findit/screens/game.dart';
 import 'package:findit/screens/intro.dart';
 import 'package:findit/services/connection.dart';
 import 'package:findit/services/utils.dart';
@@ -24,22 +24,22 @@ class App {
   static processAuth() async {
     runApp(new MaterialApp(
       title: "run/user/run",
+      home: new IntroScreen(),
     ));
   }
 
   static processMain() async {
     Connection.open(true);
-    Connection.listenDown("user.edit", down);
-    Connection.listenUp("user.edit", up);
-    Connection.send("user.edit");
-//    if (User.localUser.policyAccepted == false) {
-//      home = new UserPolicyScreen();
-//    }
+    Connection.listenDown("app", down);
+    Connection.listenUp("app", up);
+
+
     runApp(new MaterialApp(
       title: "run/user/run",
-      home: new IntroScreen(),
+      home: new GameScreen(),
     ));
   }
+
   static void down() {
     Utils.showInSnackBar(App.lastScaffoldKey, "Нет связи с сервером. Пытаемся восстановить");
   }

@@ -22,6 +22,7 @@ class Connection {
 
   static open([bool start]) async {
     _channel = IOWebSocketChannel.connect("ws://$url:$port");
+    print("open");
     _channel.stream.listen(onMessage, onDone: onDone, onError: (error) {
       if (start) onDone();
     });
@@ -37,6 +38,7 @@ class Connection {
     if (type is String && data != null)
       data = {"type": type, "params": data};
     else if (data == null) data = type;
+    print('OUT\t ' + data.toString());
     _channel.sink.add(json.encode(data));
   }
 
@@ -49,16 +51,17 @@ class Connection {
   }
 
   static onMessage(dynamic message) {
-    print('MESSAGE: '+ message);
+    print('IN\t ' + message);
     try {
       message = json.decode(message) as Map<String, dynamic>;
     } on Exception {
       return;
     }
     if (!(message is Map) || !message.containsKey("type")) return;
-    print(message);
-    dynamic params = message["params"];
     switch (message['type']) {
+      case "token":
+        send(Config.token);
+        break;
       case "ping":
         onUp();
         break;
@@ -91,8 +94,9 @@ class Connection {
     open();
   }
 
-  static void onUp() {
-    if (_isDown) _upHandlers.forEach((k, c) => c());
+  static void onUp() async {
+    await new Future.delayed(new Duration(seconds: 2));
+    _upHandlers.forEach((k, c) => c());
     _isDown = false;
   }
 }

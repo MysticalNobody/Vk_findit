@@ -5,16 +5,16 @@ import 'package:findit/services/database.dart';
 
 class Config {
   static final String dbName = "findit";
-  static final int dbVersion = 4;
+  static final int dbVersion = 1;
 
-  static String user;
+  static String token;
 
   static Future loadFromDB() async {
-    user = await loadRowFromConfig("user");
+    token = await loadRowFromConfig("token");
   }
 
   static Future saveToDB() async {
-    await saveRowToConfig("user", user);
+    await saveRowToConfig("token", token);
   }
 
   static Future saveRowToConfig(String key, dynamic value, {String keyPrefix}) async {

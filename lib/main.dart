@@ -1,9 +1,9 @@
 import 'package:findit/classes/app.dart';
-import 'package:findit/screens/intro.dart';
+import 'package:findit/classes/config.dart';
 import 'package:findit/routes.dart';
 import 'package:findit/services/database.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 void main() {
   Routes.initRoutes();
   startHome();
@@ -16,10 +16,9 @@ void startHome() async {
   }
 
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  App.processMain();
-
-  runApp(new MaterialApp(
-    title: "/run/user/run",
-    home: new IntroScreen()
-  ));
+  await Config.loadFromDB();
+  if (Config.token == null)
+    App.processAuth();
+  else
+    App.processMain();
 }

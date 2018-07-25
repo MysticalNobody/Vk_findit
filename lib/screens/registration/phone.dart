@@ -10,7 +10,7 @@ class PhoneScreen extends StatelessWidget {
 
   final VoidCallback onPressedButton;
 
-  MaskedTextController controller = new MaskedTextController(mask: '(000) 000-00-00', text: "9999999999");
+  MaskedTextController controller = new MaskedTextController(mask: '(000) 000-00-00');
   final labelStyle = TextStyle(color: Colors.white, fontSize: 16.0, fontWeight: FontWeight.w200);
   final hintStyle = TextStyle(color: Colors.white70);
 

@@ -1,6 +1,6 @@
 import 'package:findit/classes/config.dart';
-import 'package:findit/screens/game.dart';
-import 'package:flutter/material.dart';
+import 'package:findit/widgets/network_image.dart' as netimg;
+import 'package:flutter/widgets.dart';
 import 'package:photo_view/photo_view.dart';
 
 class ImageViewScreen extends StatelessWidget {
@@ -8,9 +8,8 @@ class ImageViewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         child: PhotoView(
-          imageProvider: NetworkImage(
-              'http://137.117.155.208:6456/uploads/$enemyId.jpg?auth_token=' +
-                  Config.token),
+          imageProvider:
+          netimg.NetworkImage('http://137.117.155.208:6456/uploads/${Config.targetId}.jpg?auth_token=' + Config.token),
           minScale: 0.1,
           maxScale: 4.0,
         ));

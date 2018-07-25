@@ -4,17 +4,20 @@ import 'dart:convert';
 import 'package:findit/services/database.dart';
 
 class Config {
-  static final String dbName = "findit";
+  static final String dbName = "games.run";
   static final int dbVersion = 1;
 
   static String token;
+  static int targetId;
 
   static Future loadFromDB() async {
     token = await loadRowFromConfig("token");
+    targetId = int.parse(await loadRowFromConfig("targetId") ?? "0");
   }
 
   static Future saveToDB() async {
     await saveRowToConfig("token", token);
+    await saveRowToConfig("targetId", targetId.toString());
   }
 
   static Future saveRowToConfig(String key, dynamic value, {String keyPrefix}) async {

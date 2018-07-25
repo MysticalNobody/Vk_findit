@@ -31,9 +31,9 @@ class App {
   }
 
   static processMain() async {
-    Connection.open(true);
     Connection.listenDown("app", down);
     Connection.listenUp("app", up);
+    Connection.open(true);
 
 
     runApp(new MaterialApp(

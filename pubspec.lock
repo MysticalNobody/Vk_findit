@@ -29,13 +29,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.7"
-  benchmark_harness:
-    dependency: transitive
-    description:
-      name: benchmark_harness
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.4"
   boolean_selector:
     dependency: transitive
     description:
@@ -85,20 +78,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.14.4"
-  cupertino_icons:
-    dependency: "direct main"
-    description:
-      name: cupertino_icons
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.2"
-  dart_image:
-    dependency: "direct main"
-    description:
-      name: dart_image
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.2"
   fluro:
     dependency: "direct main"
     description:
@@ -116,13 +95,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  fluttie:
-    dependency: "direct main"
-    description:
-      name: fluttie
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.2.3"
   front_end:
     dependency: transitive
     description:

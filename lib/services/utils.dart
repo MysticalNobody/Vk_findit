@@ -28,6 +28,7 @@ class Utils {
   }
 
   static showInSnackBar(GlobalKey<ScaffoldState> key, String value) {
+    if (key == null || key.currentState == null) return;
     key.currentState.showSnackBar(SnackBar(content: Text(value)));
   }
 

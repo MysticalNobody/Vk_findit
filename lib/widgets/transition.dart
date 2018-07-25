@@ -1,5 +1,5 @@
-import 'dart:ui';
 import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 /// Animates the rotation of a widget around a pivot point.
@@ -33,7 +33,7 @@ class PivotTransition extends AnimatedWidget {
   @override
   Widget build(BuildContext context) {
     final double turnsValue = turns.value;
-    final Matrix4 transform = new Matrix4.rotationZ(turnsValue * math.PI * speed);
+    final Matrix4 transform = new Matrix4.rotationZ(turnsValue * math.pi * speed);
     return new Transform(
       transform: transform,
       alignment: alignment,

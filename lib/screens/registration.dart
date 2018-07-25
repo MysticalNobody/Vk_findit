@@ -1,17 +1,13 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:findit/classes/app.dart';
-import 'package:findit/screens/game.dart';
 import 'package:findit/screens/registration/phone.dart';
 import 'package:findit/screens/registration/photo.dart';
 import 'package:findit/services/http_query.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
-import 'package:path/path.dart';
-import 'package:async/async.dart';
-import 'dart:io';
-import 'package:http/http.dart' as http;
 
 class RegistrationScreen extends StatefulWidget {
   @override
@@ -31,7 +27,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
         setState(() {});
       });
-    _controller.setVolume(1.0);
     _controller.setLooping(true);
     _controller.play();
     App.pushScaffoldKey(_scaffoldKey);
@@ -52,9 +47,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         break;
       default:
         return PhotoScreen(onPressedButton: () async {
-          userImg = await ImagePicker.pickImage(source: ImageSource.camera);
-              await HttpQuery.executeJsonQuery("/auth/send_img", params:
-              {'photo': base64Encode(userImg.readAsBytesSync())}, method: "post");
+          File userImg = await ImagePicker.pickImage(source: ImageSource.camera);
+          await HttpQuery.executeJsonQuery("/auth/send_img",
+              params: {'photo': base64Encode(userImg.readAsBytesSync())}, method: "post");
           App.processMain();
         });
         break;

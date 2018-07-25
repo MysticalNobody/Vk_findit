@@ -1,3 +1,4 @@
+import 'package:findit/classes/app.dart';
 import 'package:findit/screens/intro.dart';
 import 'package:findit/routes.dart';
 import 'package:findit/services/database.dart';
@@ -15,8 +16,10 @@ void startHome() async {
   }
 
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  App.processMain();
+
   runApp(new MaterialApp(
-    title: "Itis.cards",
+    title: "/run/user/run",
     home: new IntroScreen()
   ));
 }

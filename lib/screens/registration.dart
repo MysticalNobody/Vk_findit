@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttie/fluttie.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:fluro/fluro.dart';
+import 'package:video_player/video_player.dart';
 
 class RegistrationScreen extends StatefulWidget {
   @override
@@ -13,36 +14,20 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
-  FluttieAnimationController gradient;
+  VideoPlayerController _controller;
   int screenNum = 0;
 
   @override
   initState() {
     super.initState();
-
-    /// Load and prepare our animations after this widget has been added
-    prepareAnimation();
-  }
-
-  prepareAnimation() async {
-    // Checks if the platform we're running on is supported by the animation plugin
-    bool canBeUsed = await Fluttie.isAvailable();
-    if (!canBeUsed) {
-      print("Animations are not supported on this platform");
-      return;
-    }
-
-    var instance = new Fluttie();
-    var bgComposition = await instance.loadAnimationFromAsset(
-        "assets/gradient_animated_background.json"
-    );
-    gradient = await instance.prepareAnimation(
-        bgComposition, duration: const Duration(minutes: 2),
-        repeatCount: const RepeatCount.infinite(),
-        repeatMode: RepeatMode.START_OVER);
-    setState(() {
-      gradient.start();
-    });
+    _controller = VideoPlayerController.asset('assets/bg.mp4')
+      ..initialize().then((_) {
+        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+        setState(() {});
+      });
+    _controller.setVolume(1.0);
+    _controller.setLooping(true);
+    _controller.play();
   }
 
   Widget setScreen() {
@@ -75,7 +60,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         body: Stack(
             fit: StackFit.expand,
             children: <Widget>[
-              new Positioned.fill(child: new FluttieAnimation(gradient)),
+              new Positioned.fill(child:
+        _controller.value.initialized
+        ? AspectRatio(
+        aspectRatio: _controller.value.aspectRatio,
+          child: VideoPlayer(_controller),
+        )
+            : Container()),
               Container(
                   child: Column(
                       mainAxisSize: MainAxisSize.max,

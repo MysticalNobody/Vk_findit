@@ -40,8 +40,7 @@ class PhoneScreen extends StatelessWidget {
         keyboardType: TextInputType.number,
         style: TextStyle(fontSize: 24.0,
             color: Colors.white,
-            fontFamily: 'PoiretOne',
-            fontWeight: FontWeight.w800),
+            fontWeight: FontWeight.w200),
         decoration: InputDecoration(
           isDense: false,
           counterText: "",
@@ -75,7 +74,6 @@ class PhoneScreen extends StatelessWidget {
               child: Text('Сперва, введи свой номер телефона',
                 style: TextStyle(
                     color: Colors.white,
-                    fontFamily: 'PoiretOne',
                     fontSize: 24.0,
                     fontWeight: FontWeight.w200),
                 textAlign: TextAlign.center,)

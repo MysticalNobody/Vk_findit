@@ -13,7 +13,6 @@ class PhotoScreen extends StatelessWidget {
                 'Теперь сфотографируйся, чтобы твой напарник смог тебя найти',
                 style: TextStyle(
                     color: Colors.white,
-                    fontFamily: 'PoiretOne',
                     fontSize: 24.0,
                     fontWeight: FontWeight.w200),
                 textAlign: TextAlign.center,)

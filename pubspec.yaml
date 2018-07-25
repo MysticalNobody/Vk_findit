@@ -19,6 +19,8 @@ dependencies:
   path_provider: ^0.3.0
   fluttie: ^0.2.3
   photo_view: 0.0.3
+  video_player: ^0.6.4
+  dart_image: ^1.0.2
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -42,6 +44,14 @@ flutter:
   assets:
     - assets/user.png
     - assets/gradient_animated_background.json
+    - assets/bg.mp4
+    - assets/wheel_0.png
+    - assets/wheel_1.png
+    - assets/wheel_2.png
+    - assets/wheel_3.png
+    - assets/wheel_4.png
+    - assets/clip.png
+    - assets/ava_border.png
   # To add assets to your application, add an assets section, like this:
   # assets:
   #  - images/a_dot_burr.jpeg

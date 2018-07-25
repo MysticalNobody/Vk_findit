@@ -22,6 +22,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.7"
+  benchmark_harness:
+    dependency: transitive
+    description:
+      name: benchmark_harness
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.4"
   boolean_selector:
     dependency: transitive
     description:
@@ -29,6 +36,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.3"
+  browser:
+    dependency: transitive
+    description:
+      name: browser
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.10.0+3"
   charcode:
     dependency: transitive
     description:
@@ -71,6 +85,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.2"
+  dart_image:
+    dependency: "direct main"
+    description:
+      name: dart_image
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.2"
   fluro:
     dependency: "direct main"
     description:
@@ -408,6 +429,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.6"
+  video_player:
+    dependency: "direct main"
+    description:
+      name: video_player
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.6.4"
   vm_service_client:
     dependency: transitive
     description:
@@ -438,4 +466,4 @@ packages:
     version: "2.1.14"
 sdks:
   dart: ">=2.0.0-dev.62.0 <=2.0.0-dev.63.0.flutter-4c9689c1d2"
-  flutter: ">=0.1.4 <2.0.0"
+  flutter: ">=0.2.5 <2.0.0"

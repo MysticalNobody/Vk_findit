@@ -51,6 +51,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
     Connection.listen("target.dist", (params) {
       setState(() => distance = params);
     });
+    
     Connection.listenUp("game", () {
       Connection.unListenUp("game");
       startSend();
@@ -171,7 +172,9 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                   ),
                 )
               ]))
-        ]));
+        ]
+        )
+    );
   }
 
   void startSend() async {

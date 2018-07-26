@@ -22,6 +22,8 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
+  bool started = false;
+
   getSize(BuildContext context) {
     return MediaQuery
         .of(context)
@@ -55,22 +57,25 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
           Config.saveToDB();
         }
       });
+      return false;
     });
     Connection.listen("game.status", (params) {
       setState(() {
         status = params;
       });
+      return false;
     });
 
     Connection.listenUp("game", () {
-      Connection.unListenUp("game");
       setState(() {
         status = 1;
       });
-      startSend();
+      Connection.send('user.check_status');
+      if (!started)
+        startSend();
+      return false;
     });
 
-    Connection.send('user.check_status');
     App.pushScaffoldKey(_scaffoldKey);
   }
 
@@ -101,15 +106,19 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
               child: Column(children: <Widget>[
                 Text(
                   "ENEMY\nHACKER",
-                  style: TextStyle(color: Colors.white, fontSize: 24.0, fontWeight: FontWeight.w200),
+                  style: TextStyle(color: Colors.white,
+                      fontSize: 24.0,
+                      fontWeight: FontWeight.w200),
                   textAlign: TextAlign.center,
                 ),
                 status == 2
                     ? InkWell(
                     onTap: () {
-                      Routes.navigateTo(context, 'image_view', transition: TransitionType.fadeIn);
+                      Routes.navigateTo(context, 'image_view',
+                          transition: TransitionType.fadeIn);
                     },
-                    child: Stack(alignment: Alignment.center, children: <Widget>[
+                    child: Stack(
+                        alignment: Alignment.center, children: <Widget>[
                       Container(
                         margin: EdgeInsets.only(top: 12.0),
                         height: MediaQuery
@@ -127,7 +136,8 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                         decoration: BoxDecoration(
                           image: DecorationImage(
                               image: netimg.NetworkImage(
-                                  'http://137.117.155.208:6456/uploads/${Config.targetId}.jpg?auth_token=' +
+                                  'http://137.117.155.208:6456/uploads/${Config
+                                      .targetId}.jpg?auth_token=' +
                                       Config.token),
                               fit: BoxFit.cover,
                               alignment: Alignment.center),
@@ -145,7 +155,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                     : new PivotTransition(
                   alignment: FractionalOffset.center,
                   turns: _animationController,
-                  speed: 1.2,
+                  speed: 2.0,
                   child: Container(
                     width: MediaQuery
                         .of(context)
@@ -169,7 +179,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                     child: new PivotTransition(
                       alignment: FractionalOffset.center,
                       turns: _animationController,
-                      speed: status == 2 ? 2.0 : -1.0,
+                      speed: status == 2 ? 2.0 : -2.0,
                       child: Container(
                         width: getSize(context) + 20,
                         height: getSize(context) + 20,
@@ -178,15 +188,19 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                     )),
                 Center(
                     child: Container(
-                        width: getSize(context), height: getSize(context), child: Image.asset('assets/wheel_1.png'))),
+                        width: getSize(context),
+                        height: getSize(context),
+                        child: Image.asset('assets/wheel_1.png'))),
                 Center(
                     child: Container(
-                        width: getSize(context), height: getSize(context), child: Image.asset('assets/wheel_2.png'))),
+                        width: getSize(context),
+                        height: getSize(context),
+                        child: Image.asset('assets/wheel_2.png'))),
                 Center(
                     child: new PivotTransition(
                       alignment: FractionalOffset.center,
                       turns: _animationController,
-                      speed: status == 2 ? 4.0 : -1.5,
+                      speed: status == 2 ? 4.0 : -4.0,
                       child: Container(
                         width: getSize(context) + 25,
                         height: getSize(context) + 25,
@@ -206,7 +220,8 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                       fit: BoxFit.contain,
                       alignment: Alignment.center,
                       child: Text(
-                        distance != null && status == 2 ? (distance.toString() + 'м') : "Wait..",
+                        distance != null && status == 2 ? (distance.toString() +
+                            'м') : "Wait..",
                         style: TextStyle(
                             fontWeight: FontWeight.w900,
                             fontStyle: FontStyle.italic,
@@ -221,12 +236,17 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
   }
 
   void startSend() async {
+    started = true;
     while (true) {
-      Geolocation.currentLocation(accuracy: LocationAccuracy.best).listen((result) {
+      Geolocation.currentLocation(accuracy: LocationAccuracy.best).listen((
+          result) {
         if (result.isSuccessful) {
           print(result.location);
           Connection
-              .send("user.update_geo", {"longitude": result.location.longitude, "latitude": result.location.latitude});
+              .send("user.update_geo", {
+            "longitude": result.location.longitude,
+            "latitude": result.location.latitude
+          });
         }
       });
       await Future.delayed(new Duration(seconds: 10));

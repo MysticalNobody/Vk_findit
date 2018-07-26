@@ -9,6 +9,7 @@ public class MainActivity extends FlutterActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        RunUserRunPlugin.registerWith(this.registrarFor(RunUserRunPlugin.class.getName()));
         GeneratedPluginRegistrant.registerWith(this);
     }
 }

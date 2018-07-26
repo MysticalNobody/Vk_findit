@@ -2,56 +2,45 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:findit/classes/config.dart';
-import 'package:web_socket_channel/io.dart';
-import 'package:web_socket_channel/status.dart' as status;
+import 'package:findit/runuserrun.dart';
 
-typedef void ListenCallback(dynamic params);
-typedef void ListenDownCallback();
-typedef void ListenUpCallback();
+typedef bool ListenCallback(dynamic params);
+typedef bool ListenDownCallback();
+typedef bool ListenUpCallback();
 
 class Connection {
-  static final String url = "137.117.155.208";
-  static final int port = 6456;
-
-  static IOWebSocketChannel _channel;
-  static bool _isDown = false;
-
   static Map<String, ListenCallback> _handlers = {};
   static Map<String, ListenDownCallback> _downHandlers = {};
   static Map<String, ListenUpCallback> _upHandlers = {};
 
-  static open([bool start]) async {
-    _channel = IOWebSocketChannel.connect("ws://$url:$port");
-    print("open");
-    _channel.stream.listen(onMessage, onDone: onDone, onError: (error) {
-      if (start) onDone();
-    });
+  static int status = 0;
+
+  static open() async {
+    if (Config.token == null) return;
+    RunUserRun.startConnection(Config.token);
+    RunUserRun.receiveData.listen(onMessage);
   }
 
   static close() {
-    if (_channel == null) return;
-    _channel.sink.close(status.goingAway);
+    RunUserRun.stopConnection();
   }
 
   static send(dynamic type, [dynamic data]) {
-    if (_channel == null) return;
     if (type is String && data != null)
       data = {"type": type, "params": data};
     else if (data == null) data = type;
-    print('OUT\t ' + data.toString());
-    _channel.sink.add(json.encode(data));
+    RunUserRun.sendConnectionData(json.encode(data));
   }
 
-  static listen(String type, ListenCallback callback) {
-    _handlers[type] = callback;
-  }
-
-  static unListen(String type) {
-    _handlers.remove(type);
-  }
-
-  static onMessage(dynamic message) {
-    print('IN\t ' + message);
+  static onMessage(List<String> input) {
+    print(input[0]);
+    if (!input[0].startsWith("w")) return;
+    if (input[0] == "wcls") {
+      onDone();
+      return;
+    }
+    if (input[0] != "wmsg") return;
+    dynamic message = input[1];
     try {
       message = json.decode(message) as Map<String, dynamic>;
     } on Exception {
@@ -67,8 +56,17 @@ class Connection {
         break;
       default:
         ListenCallback cb = _handlers[message["type"]];
-        if (cb != null) cb(message["params"]);
+        if (cb != null)
+          if (cb(message["params"])) _handlers.remove(message["type"]);
     }
+  }
+
+  static listen(String type, ListenCallback callback) {
+    _handlers[type] = callback;
+  }
+
+  static unListen(String type) {
+    _handlers.remove(type);
   }
 
   static listenDown(String type, ListenDownCallback callback) {
@@ -88,15 +86,24 @@ class Connection {
   }
 
   static void onDone() async {
-    if (!_isDown) _downHandlers.forEach((k, c) => c());
-    _isDown = true;
+    List deleteHandlers = [];
+    if (status != 0) _downHandlers.forEach((k, c) =>
+        deleteHandlers.add(c() ? k : null));
+    deleteHandlers.forEach((n) {
+      if (n != null) _downHandlers.remove(n);
+    });
+    status = 1;
     await new Future.delayed(new Duration(seconds: 2));
     open();
   }
 
   static void onUp() async {
     await new Future.delayed(new Duration(seconds: 2));
-    _upHandlers.forEach((k, c) => c());
-    _isDown = false;
+    List deleteHandlers = [];
+    _upHandlers.forEach((k, c) => deleteHandlers.add(c() ? k : null));
+    deleteHandlers.forEach((n) {
+      if (n != null) _upHandlers.remove(n);
+    });
+    status = 2;
   }
 }

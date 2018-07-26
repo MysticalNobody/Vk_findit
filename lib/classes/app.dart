@@ -2,8 +2,6 @@ import 'dart:collection';
 
 import 'package:findit/screens/game.dart';
 import 'package:findit/screens/intro.dart';
-import 'package:findit/screens/registration.dart';
-import 'package:findit/screens/registration/photo.dart';
 import 'package:findit/services/connection.dart';
 import 'package:findit/services/utils.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +31,7 @@ class App {
   static processMain() async {
     Connection.listenDown("app", down);
     Connection.listenUp("app", up);
-    Connection.open(true);
+    Connection.open();
 
 
     runApp(new MaterialApp(
@@ -42,11 +40,13 @@ class App {
     ));
   }
 
-  static void down() {
-    Utils.showInSnackBar(App.lastScaffoldKey, "Нет связи с сервером. Пытаемся восстановить");
+  static bool down() {
+    Utils.showInSnackBar(App.lastScaffoldKey, "Нет связи с hack/net");
+    return false;
   }
 
-  static void up() {
-    Utils.showInSnackBar(App.lastScaffoldKey, "Связь с сервером восстановлена");
+  static bool up() {
+    Utils.showInSnackBar(App.lastScaffoldKey, "Связь с hack/net восстановлена");
+    return false;
   }
 }

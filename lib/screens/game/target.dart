@@ -68,7 +68,7 @@ class TargetScreen extends StatelessWidget{
                 : new PivotTransition(
               alignment: FractionalOffset.center,
               turns: animationController,
-              speed: 1.2,
+              speed: 2.0,
               child: Container(
                 width: MediaQuery
                     .of(context)
@@ -92,7 +92,7 @@ class TargetScreen extends StatelessWidget{
                 child: new PivotTransition(
                   alignment: FractionalOffset.center,
                   turns: animationController,
-                  speed: status == 2 ? 2.0 : -1.0,
+                  speed: status == 2 ? 2.0 : -2.0,
                   child: Container(
                     width: getSize(context) + 20,
                     height: getSize(context) + 20,
@@ -109,7 +109,7 @@ class TargetScreen extends StatelessWidget{
                 child: new PivotTransition(
                   alignment: FractionalOffset.center,
                   turns: animationController,
-                  speed: status == 2 ? 4.0 : -1.5,
+                  speed: status == 2 ? 4.0 : -4.0,
                   child: Container(
                     width: getSize(context) + 25,
                     height: getSize(context) + 25,

@@ -48,14 +48,14 @@ public class RunUserRunService extends Service {
         mToken = token;
         Intent intent = new Intent(registrar.context(), RunUserRunService.class);
         intent.setAction("startConnection");
-        registrar.context().startService(intent);
+        registrar.activeContext().startService(intent);
     }
 
     public static void sendConnectionData(String data) {
         Intent intent = new Intent(registrar.context(), RunUserRunService.class);
         intent.setAction("sendConnectionData");
         intent.putExtra("data", data);
-        registrar.context().startService(intent);
+        registrar.activeContext().startService(intent);
     }
 
     void saveText() {

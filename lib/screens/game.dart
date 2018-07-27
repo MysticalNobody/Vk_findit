@@ -66,7 +66,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
     );
 
     animationController.repeat();
-    Connection.listen("target.dist", (params) {
+    Connection.listen("game.status", (params) {
       setState(() {
         distance = params['distance'];
         status = params['status'];
@@ -77,22 +77,13 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
       });
       return false;
     });
-    Connection.listen("game.status", (params) {
-      setState(() {
-        status = params;
-      });
-      return false;
-    });
 
     Connection.listenUp("open", () {
       setState(() {
         status = 1;
       });
-      Connection.send('user.check_status');
       return false;
     });
-
-    Connection.send('user.check_status');
     App.pushScaffoldKey(_scaffoldKey);
   }
 
@@ -107,7 +98,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
         key: _scaffoldKey,
-        body: status > 3 ? TargetScreen(): HackedScreen());
+        body: status < 3 ? TargetScreen(): HackedScreen());
   }
 
 }

@@ -5,6 +5,7 @@ import 'package:findit/screens/intro.dart';
 import 'package:findit/services/connection.dart';
 import 'package:findit/services/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:permissions/permissions.dart';
 
 class App {
   static var _scaffoldKeys = new Queue<GlobalKey<ScaffoldState>>();
@@ -31,6 +32,9 @@ class App {
   static processMain() async {
     Connection.listenDown("app", down);
     Connection.listenUp("app", up);
+    if (!await Permissions.checkPermission(Permission.AccessFineLocation))
+      await Permissions.requestPermission(Permission.AccessFineLocation);
+
     Connection.open();
 
 

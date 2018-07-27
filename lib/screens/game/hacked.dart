@@ -15,17 +15,17 @@ class HackedScreen extends StatelessWidget {
             : Container(),
       ),
       Center(
-          child: Column(
+          child: status == 3 ? Column(
             mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Text('YOU ARE',
+                Text('You are under',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 48.0,
                   fontWeight: FontWeight.w900,
                 ),
                 textAlign: TextAlign.center,
-              ), Text('/hacked/',
+              ), Text('/hack/',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 48.0,
@@ -34,6 +34,26 @@ class HackedScreen extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               )
+              ]
+          ) : Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Text('YOU ARE',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 48.0,
+                    fontWeight: FontWeight.w900,
+                  ),
+                  textAlign: TextAlign.center,
+                ), Text('/hacked/',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 48.0,
+                      fontWeight: FontWeight.w200,
+                      fontStyle: FontStyle.italic
+                  ),
+                  textAlign: TextAlign.center,
+                )
               ]
           )
       )

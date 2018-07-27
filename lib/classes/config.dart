@@ -12,7 +12,11 @@ class Config {
 
   static Future loadFromDB() async {
     token = await loadRowFromConfig("token");
-    targetId = int.parse(await loadRowFromConfig("targetId") ?? "0");
+    try {
+      targetId = int.parse((await loadRowFromConfig("targetId")) ?? "0");
+    } on Exception {
+      targetId = 0;
+    }
   }
 
   static Future saveToDB() async {
@@ -20,19 +24,22 @@ class Config {
     await saveRowToConfig("targetId", targetId.toString());
   }
 
-  static Future saveRowToConfig(String key, dynamic value, {String keyPrefix}) async {
+  static Future saveRowToConfig(String key, dynamic value,
+      {String keyPrefix}) async {
     if (keyPrefix != null) key = keyPrefix + key;
     var db = new DataBase();
     return await db.updateOrInsert("config", {"key": key, "value": value});
   }
 
-  static Future<dynamic> loadRowFromConfig(String key, {String keyPrefix}) async {
+  static Future<dynamic> loadRowFromConfig(String key,
+      {String keyPrefix}) async {
     if (keyPrefix != null) key = keyPrefix + key;
     var db = new DataBase();
     return await db.getField("config", key, "value", filterField: "key");
   }
 
-  static Future saveToConfig(Map<String, dynamic> data, String keyPrefix) async {
+  static Future saveToConfig(Map<String, dynamic> data,
+      String keyPrefix) async {
     var db = new DataBase();
     List<Map<String, dynamic>> list = [];
     data.forEach((String k, dynamic v) {
@@ -46,8 +53,10 @@ class Config {
   static Future<Map<String, dynamic>> loadFromConfig(String keyPrefix) async {
     var db = new DataBase();
     Map<String, dynamic> data = {};
-    var _ = (await db.filterLike("key", keyPrefix + "%").get<Map<String, dynamic>>("config"))
-        .forEach((_) => data[(_['key'] as String).substring(keyPrefix.length)] = _['value']);
+    var _ = (await db.filterLike("key", keyPrefix + "%").get<
+        Map<String, dynamic>>("config"))
+        .forEach((_) =>
+    data[(_['key'] as String).substring(keyPrefix.length)] = _['value']);
     print(data);
     return data;
   }

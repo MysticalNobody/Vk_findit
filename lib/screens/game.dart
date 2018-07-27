@@ -2,15 +2,10 @@ import 'dart:async';
 
 import 'package:findit/classes/app.dart';
 import 'package:findit/classes/config.dart';
-import 'package:findit/routes.dart';
-import 'package:findit/screens/game/hacked.dart';
 import 'package:findit/screens/game/target.dart';
 import 'package:findit/services/connection.dart';
-import 'package:findit/widgets/network_image.dart' as netimg;
-import 'package:findit/widgets/transition.dart';
-import 'package:fluro/fluro.dart';
-import 'package:location/location.dart';
 import 'package:flutter/material.dart';
+import 'package:location/location.dart';
 import 'package:video_player/video_player.dart';
 
 class GameScreen extends StatefulWidget {
@@ -88,14 +83,13 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
       return false;
     });
 
-    Connection.listenUp("game", () {
-      Connection.unListenUp("game");
+    Connection.listenUp("open", () {
       setState(() {
         status = 1;
       });
       Connection.send('user.check_status');
-      if (!started)
-        startSend();
+      // if (!started)
+      //   startSend();
       return false;
     });
 

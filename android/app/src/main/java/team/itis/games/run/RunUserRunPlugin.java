@@ -31,10 +31,6 @@ public class RunUserRunPlugin implements MethodChannel.MethodCallHandler, EventC
                 RunUserRunService.startConnection((String) call.arguments);
                 result.success(true);
                 break;
-            case "stopConnection":
-                RunUserRunService.stopConnection();
-                result.success(true);
-                break;
             case "sendConnectionData":
                 RunUserRunService.sendConnectionData((String) call.arguments);
                 result.success(true);

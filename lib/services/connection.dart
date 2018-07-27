@@ -49,7 +49,7 @@ class Connection {
     if (!(message is Map) || !message.containsKey("type")) return;
     switch (message['type']) {
       case "token":
-        send(Config.token);
+      //send(Config.token);
         break;
       case "ping":
         onUp();

@@ -1,7 +1,9 @@
-import 'package:analyzer/file_system/file_system.dart';
+import 'package:findit/screens/registration.dart';
 import 'package:flutter/material.dart';
+
 class PhotoScreen extends StatelessWidget {
   PhotoScreen({this.onPressedButton});
+
   final VoidCallback onPressedButton;
 
   @override
@@ -10,7 +12,9 @@ class PhotoScreen extends StatelessWidget {
         children: <Widget>[
           Center(
               child: Text(
-                'Теперь сфотографируйся, чтобы твой напарник смог тебя найти',
+                photoChosen
+                    ? 'Идёт обработка фото...'
+                    : 'Теперь сфотографируйся, чтобы твой напарник смог тебя найти',
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 24.0,
@@ -19,11 +23,11 @@ class PhotoScreen extends StatelessWidget {
           ),
           Center(
               child: IconButton(
-                  icon: Icon(Icons.add_a_photo,
+                  icon: Icon(photoChosen ? Icons.done : Icons.add_a_photo,
                     color: Colors.white70,
                   ),
                   iconSize: 72.0,
-                  onPressed: onPressedButton
+                  onPressed: photoChosen ? null : onPressedButton
               )
           )
         ]);

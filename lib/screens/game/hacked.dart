@@ -12,10 +12,12 @@ class HackedScreen extends StatelessWidget {
           aspectRatio: controllerBgHacked.value.aspectRatio,
           child: VideoPlayer(controllerBgHacked),
         )
-            : Container(),
+            : Container(
+          color: Colors.black,
+        ),
       ),
       Center(
-          child: status == 3 ? Column(
+          child: status == 4 ? Column(
             mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Text('You are under',
@@ -33,7 +35,21 @@ class HackedScreen extends StatelessWidget {
                   fontStyle: FontStyle.italic
                 ),
                 textAlign: TextAlign.center,
-              )
+                ),
+                Container(
+                    margin: EdgeInsets.only(top: 24.0),
+                    child: loadingBar()
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 24.0),
+                  child: Text('run away',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.w900
+                      )
+                  ),
+                )
               ]
           ) : Column(
               mainAxisSize: MainAxisSize.min,
@@ -45,7 +61,7 @@ class HackedScreen extends StatelessWidget {
                     fontWeight: FontWeight.w900,
                   ),
                   textAlign: TextAlign.center,
-                ), Text('/hacked/',
+                ), Text('/hacking/',
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 48.0,
@@ -53,7 +69,11 @@ class HackedScreen extends StatelessWidget {
                       fontStyle: FontStyle.italic
                   ),
                   textAlign: TextAlign.center,
-                )
+                ),
+                Container(
+                    margin: EdgeInsets.only(top: 24.0),
+                    child: loadingBar()
+                ),
               ]
           )
       )

@@ -1,7 +1,7 @@
 import 'dart:collection';
 
 import 'package:findit/screens/game.dart';
-import 'package:findit/screens/intro.dart';
+import 'package:findit/screens/registration.dart';
 import 'package:findit/services/connection.dart';
 import 'package:findit/services/utils.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +25,7 @@ class App {
   static processAuth() async {
     runApp(new MaterialApp(
       title: "run/user/run",
-      home: new IntroScreen(),
+      home: new RegistrationScreen(),
     ));
   }
 

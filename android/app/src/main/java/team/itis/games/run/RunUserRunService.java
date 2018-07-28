@@ -2,6 +2,7 @@ package team.itis.games.run;
 
 import android.Manifest;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Context;
@@ -9,10 +10,12 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.IBinder;
 import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.NotificationCompat;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -66,10 +69,25 @@ public class RunUserRunService extends Service {
         return getSharedPreferences("service", MODE_PRIVATE).getString("token", "");
     }
 
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            int importance = NotificationManager.IMPORTANCE_LOW;
+            NotificationChannel channel = new NotificationChannel("1", "/", importance);
+            channel.setDescription("");
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
         nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        createNotificationChannel();
         LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         if (connection == null)
@@ -138,17 +156,28 @@ public class RunUserRunService extends Service {
 
     }
 
-    void sendNotif() {
-        Notification.Builder builder =
-                new Notification.Builder(this)
-                        .setSmallIcon(R.mipmap.ic_launcher)
-                        .setContentTitle("Title")
-                        .setContentText("Notification text");
+    void sendNotif(String titile, String content) {
 
-        Notification notification = builder.build();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, "1")
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setContentTitle(titile)
+                    .setContentText(content);
 
-        // отправляем
-        nm.notify(1, notification);
+            Notification notification1 = mBuilder.build();
+            nm.notify(1, notification1);
+        } else {
+            Notification.Builder builder =
+                    new Notification.Builder(this)
+                            .setSmallIcon(R.mipmap.ic_launcher)
+                            .setContentTitle(titile)
+                            .setContentText(content);
+
+            Notification notification = builder.build();
+
+            // отправляем
+            nm.notify(1, notification);
+        }
     }
 
     @Nullable
@@ -195,6 +224,18 @@ public class RunUserRunService extends Service {
                             System.out.println(mToken);
                             send("\"" + mToken + "\"");
                             break;
+                        case "game.status":
+                            int status = ((JSONObject) params).getInt("status");
+                            if (status == 1) {
+                                sendNotif("wait/user/wait", "Ожидание...");
+                            } else if (status == 2) {
+                                sendNotif("run/user/run ", "Дистанция до цели: " + ((JSONObject) params).getInt("distance") + "м");
+                            } else if (status == 3) {
+                                sendNotif("hack/user/hack ", "Вы взламываете цель");
+                            } else {
+                                sendNotif("run/target/run ", "Вас взламывают");
+                            }
+
                     }
                 } catch (JSONException ignored) {
                 }

@@ -14,6 +14,7 @@ class RegistrationScreen extends StatefulWidget {
   _RegistrationScreenState createState() => new _RegistrationScreenState();
 }
 
+var photoChosen = false;
 class _RegistrationScreenState extends State<RegistrationScreen> {
   VideoPlayerController _controller;
   int screenNum = 0;
@@ -47,7 +48,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         break;
       default:
         return PhotoScreen(onPressedButton: () async {
+          if (photoChosen) {
+            return;
+          }
           File userImg = await ImagePicker.pickImage(source: ImageSource.camera);
+          setState(() {
+            photoChosen = true;
+          });
           await HttpQuery.executeJsonQuery("/auth/send_img",
               params: {'photo': base64Encode(userImg.readAsBytesSync())}, method: "post");
           App.processMain();

@@ -14,7 +14,7 @@ class PhotoScreen extends StatelessWidget {
               child: Text(
                 photoChosen
                     ? 'Идёт обработка фото...'
-                    : 'Теперь сфотографируйся, чтобы твой напарник смог тебя найти',
+                    : 'Теперь пройди идентификацию по биометрии лица',
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 24.0,

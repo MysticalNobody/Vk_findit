@@ -15,6 +15,7 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 var photoChosen = false;
+
 class _RegistrationScreenState extends State<RegistrationScreen> {
   VideoPlayerController _controller;
   int screenNum = 0;
@@ -42,11 +43,50 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   Widget setScreen() {
     switch (screenNum) {
       case 0:
+        return Column(children: <Widget>[
+          Center(
+              child: Text(
+                'Вчера произошла крупная утечка данных, в результате которой различным хакерским группировкам удалось похитить фрагменты секретного кода.',
+                style: TextStyle(color: Colors.white, fontSize: 24.0, fontWeight: FontWeight.w300),
+                textAlign: TextAlign.center,
+              )),
+          IconButton(
+            icon: Icon(Icons.arrow_forward, size: 48.0),
+            iconSize: 48.0,
+            color: Colors.white,
+            disabledColor: Colors.grey,
+            onPressed: () async {
+              setState(() => screenNum = 1);
+            },
+          )
+        ]);
+        break;
+      case 1:
+        return Column(children: <Widget>[
+          Center(
+              child: Text(
+                'Найди враждебных хакеров и продержись в зоне действия связи 20 секунд чтобы взломать его устройство и украсть фрагмент кода. Боевое приложение поможет тебе в этом.',
+                style: TextStyle(color: Colors.white, fontSize: 24.0, fontWeight: FontWeight.w300),
+                textAlign: TextAlign.center,
+              )),
+          IconButton(
+            icon: Icon(Icons.arrow_forward, size: 48.0),
+            iconSize: 48.0,
+            color: Colors.white,
+            disabledColor: Colors.grey,
+            onPressed: () async {
+              setState(() => screenNum = 2);
+            },
+          )
+        ]);
+        break;
+      case 2:
         return PhoneScreen(onPressedButton: () {
-          setState(() => screenNum = 1);
+          print("rot");
+          setState(() => screenNum = 3);
         });
         break;
-      default:
+      case 3:
         return PhotoScreen(onPressedButton: () async {
           if (photoChosen) {
             return;
@@ -61,6 +101,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         });
         break;
     }
+    return Text("");
   }
 
   @override

@@ -1,13 +1,13 @@
 import 'package:findit/classes/config.dart';
 import 'package:findit/routes.dart';
 import 'package:findit/screens/game.dart';
+import 'package:findit/widgets/network_image.dart' as netimg;
 import 'package:findit/widgets/transition.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
-import 'package:findit/widgets/network_image.dart' as netimg;
 
-class TargetScreen extends StatelessWidget{
+class TargetScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(fit: StackFit.expand, children: <Widget>[
@@ -128,7 +128,7 @@ class TargetScreen extends StatelessWidget{
                 child: new FittedBox(
                   fit: BoxFit.contain,
                   alignment: Alignment.center,
-                  child: Text (
+                  child: Text(
                     distance != null && status == 2 ? (distance.toString() + 'м') : "Wait..",
                     style: TextStyle(
                         fontWeight: FontWeight.w900,
@@ -139,8 +139,27 @@ class TargetScreen extends StatelessWidget{
                 ),
               ),
             )
-          ]))
+          ])),
+      Positioned(
+          bottom: 16.0,
+          left: 8.0,
+          child: new SizedBox(
+            height: 32.0,
+            width: MediaQuery
+                .of(context)
+                .size
+                .width - 16,
+            child: new FittedBox(
+              fit: BoxFit.contain,
+              alignment: Alignment.center,
+              child: Text("Количество собранных частей вражеского кода: " + rating.toString(),
+                  style: TextStyle(
+                    fontWeight: FontWeight.w300,
+                    fontStyle: FontStyle.italic,
+                    color: Colors.white,
+                  )),
+            ),
+          ))
     ]);
   }
-
 }
